@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import { NativeAssetId, Predicate, Provider, Wallet, WalletUnlocked, bn } from 'fuels';
 import { BackendAbi__factory } from './types';
+import { seedTestWallet } from '@fuel-ts/wallet/test-utils';
 
 function App() {
   // Connect to testnet beta-3
@@ -11,12 +12,19 @@ function App() {
   const predicate = BackendAbi__factory.createInstance(provider);
   console.log(predicate.address.toB256());
 
-  // Setup test wallet
-  // TODO *Add in private key of wallet that is funded*
-  const wallet = Wallet.fromPrivateKey("0x..", provider);
 
   useEffect(() => {
+    // Trying to setup testwallet
+    const wallet = Wallet.generate({ provider });
     const connectPredicate = async () => {
+      // Throws: Error: not enough resources to fit the target: 
+      await seedTestWallet(wallet, [
+        {
+          amount: bn(1_000_000),
+          assetId: NativeAssetId,
+        },
+      ]);
+
       // Fund the predicate
       const response1 = await wallet.transfer(predicate.address, 100000, NativeAssetId, {
         gasLimit: 164,
