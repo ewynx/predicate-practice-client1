@@ -10,11 +10,16 @@
 */
 
 import {
+  BigNumberish,
+  BN,
   Predicate,
   Provider,
 } from 'fuels';
 
-type BackendAbiInputs = [];
+export type ValidationInput = { has_account: boolean, total_complete: BigNumberish };
+export type ValidationOutput = { has_account: boolean, total_complete: BN };
+
+type BackendAbiInputs = [received: ValidationInput];
 
 const _abi = {
   "types": [
@@ -23,11 +28,40 @@ const _abi = {
       "type": "bool",
       "components": null,
       "typeParameters": null
+    },
+    {
+      "typeId": 1,
+      "type": "struct Validation",
+      "components": [
+        {
+          "name": "has_account",
+          "type": 0,
+          "typeArguments": null
+        },
+        {
+          "name": "total_complete",
+          "type": 2,
+          "typeArguments": null
+        }
+      ],
+      "typeParameters": null
+    },
+    {
+      "typeId": 2,
+      "type": "u64",
+      "components": null,
+      "typeParameters": null
     }
   ],
   "functions": [
     {
-      "inputs": [],
+      "inputs": [
+        {
+          "name": "received",
+          "type": 1,
+          "typeArguments": null
+        }
+      ],
       "name": "main",
       "output": {
         "name": "",
@@ -42,7 +76,7 @@ const _abi = {
   "configurables": []
 }
 
-const _bin = '0x9000000447000000000000000000001c5dfcc00110fff30024040000'
+const _bin = '0x9000000447000000000000000000008c5dfcc00110fff30071480003614521017344000b614d210d9000001272400002134114005a41000173400011614d211f90000012240000001a4450009100003072400010284534005d411000134100407340001a90000021504510107240001028453400504110085d4500005d43f0001341140024400000470000000000000000000064'
 
 export class BackendAbi__factory {
 

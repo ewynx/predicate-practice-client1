@@ -1,6 +1,14 @@
 predicate;
 
-// All predicates require a main function which returns a Boolean value.
-fn main() -> bool {
-    true
+struct Validation {
+    has_account: bool,
+    total_complete: u64,
+}
+
+// Doc ref: https://fuellabs.github.io/fuels-ts/guide/predicates/
+fn main(received: Validation) -> bool {
+    let expected_has_account: bool = true;
+    let expected_total_complete: u64 = 100;
+
+    received.has_account == expected_has_account && received.total_complete == expected_total_complete
 }
